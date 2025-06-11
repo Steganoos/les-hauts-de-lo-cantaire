@@ -6,7 +6,7 @@ class Product
 {
     private int $id_products;
     private string $name;
-    private string $creation_date;
+    private DateTime $creation_date;
     private float $price_ttc;
     private float $price_kg;
     private string $description;
@@ -15,6 +15,9 @@ class Product
     private string $composition;
     private bool $in_stock;
     private bool $is_active;
+    private ?string $image_url = null;
+    private ?string $alt_text = null;
+    private ?string $id_images = null;
 
     // Setters
     public function setIdProducts(int $id_products): void
@@ -27,7 +30,7 @@ class Product
         $this->name = $name;
     }
 
-    public function setCreationDate(string $creation_date): void
+    public function setCreationDate(DateTime $creation_date): void
     {
         $this->creation_date = $creation_date;
     }
@@ -72,6 +75,21 @@ class Product
         $this->is_active = $is_active;
     }
 
+    public function setImageUrl(?string $image_url): void
+    {
+    $this->image_url = $image_url;
+    }
+
+    public function setAltText(?string $alt_text): void
+    {
+    $this->alt_text = $alt_text;
+    }
+
+    public function setIdImages(?string $id_images): void
+    {
+    $this->id_images = $id_images;
+    }
+
     // Getters
     public function getIdProducts(): int
     {
@@ -83,7 +101,7 @@ class Product
         return $this->name;
     }
 
-    public function getCreationDate(): string
+    public function getCreationDate(): DateTime
     {
         return $this->creation_date;
     }
@@ -127,8 +145,21 @@ class Product
     {
         return $this->is_active;
     }
-}
+    public function getImageUrl(): ?string
+    {
+    return $this->image_url;
+    }
+    
+    public function getAltText(): ?string
+    {
+    return $this->alt_text;
+    }
 
+    public function getIdImages(): ?string
+    {
+    return $this->id_images;
+    }
+}
 
 
 class ProductsRepository
@@ -156,7 +187,7 @@ class ProductsRepository
         $product = new Product();
         $product->setIdProducts((int)$row['id_products']);
         $product->setName($row['name']);
-        $product->setCreationDate($row['creation_date']);
+        $product->setCreationDate(new DateTime($row['creation_date']));
         $product->setPriceTtc((float)$row['price_ttc']);
         $product->setPriceKg((float)$row['price_kg']);
         $product->setDescription($row['description']);
@@ -171,10 +202,12 @@ class ProductsRepository
 
 
 
-    public function getProducts(): array
+    public function getProductsWithImages(): array
     {
         $statement = $this->connection->getConnection()->query(
-            "SELECT id_products, name, description FROM products"
+            "SELECT p.id_products, p.name, p.description, i.id_images, i.image_url, i.alt_text 
+            FROM products p 
+            LEFT JOIN images i ON p.id_products = i.id_products"
         );
         $products = [];
         while (($row = $statement->fetch(PDO::FETCH_ASSOC))) {
@@ -182,6 +215,9 @@ class ProductsRepository
             $product->setIdProducts((int)$row['id_products']);
             $product->setName($row['name']);
             $product->setDescription($row['description']);
+            $product->setImageUrl($row['image_url']);
+            $product->setAltText($row['alt_text']);
+            $product->setIdImages($row['id_images']);
 
             $products[] = $product;
         }

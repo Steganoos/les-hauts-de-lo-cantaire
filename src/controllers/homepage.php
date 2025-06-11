@@ -2,26 +2,35 @@
 
 // src/controllers/Homepage.php
 
-require_once 'config/config.php';
-require_once 'src/lib/DatabaseConnection.php';
-require_once 'src/models/Product.php';
-require_once 'src/models/ProductsRepository.php';
+// $configFilePath = __DIR__ . '/../../config/config.php';
+// $config = require $configFilePath;
+
+// var_dump($config);
+//exit;
+
+
+require_once __DIR__ . '/../lib/database.php';
+require_once __DIR__ . '/../models/product.php';
 
 class Homepage
 {
     public function execute()
     {
-        $config = require 'config/config.php';
+        $config = require __DIR__ . '/../../config/config.php';
 
-        $dns = "mysql:host={$config['db_host']};dbname={$config['db_name']};charset=utf8";
+        $dsn = "mysql:host={$config['db_host']};dbname={$config['db_name']};charset=utf8";
         $username = $config['db_user'];
         $password = $config['db_pass'];
 
-        $connection = new DatabaseConnection($dns, $username, $password);
+        // Pour vérifier les variables avant la connexion
+        // var_dump($dsn, $username, $password);
+        // exit;
+
+        $connection = new DatabaseConnection($dsn, $username, $password);
 
         $productsRepository = new ProductsRepository($connection);
-        
-        $products = $productsRepository->getProducts();
+
+        $products = $productsRepository->getProductsWithImages();
 
         require 'src/templates/views/homepage.php';
     }

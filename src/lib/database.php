@@ -3,13 +3,13 @@
 class DatabaseConnection
 {
     private ?\PDO $database = null;
-    private string $dns;
+    private string $dsn;
     private string $username;
     private string $password;
 
-    public function __construct(string $dns, string $username, string $password)
+    public function __construct(string $dsn, string $username, string $password)
     {
-        $this->dns = $dns;
+        $this->dsn = $dsn;
         $this->username = $username;
         $this->password = $password;
     }
@@ -17,8 +17,14 @@ class DatabaseConnection
     public function getConnection(): \PDO
     {
         if ($this->database === null) {
-            $this->database = new \PDO($this->dns, $this->username, $this->password);
-            $this->database->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            try {
+                $this->database = new \PDO($this->dsn, $this->username, $this->password);
+                $this->database->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+            } catch (\PDOException $e) {
+                die("Erreur de connexion PDO : " . $e->getMessage() . 
+                    "\nDSN : " . $this->dsn . 
+                    "\nUser : " . $this->username);
+            }
         }
 
         return $this->database;

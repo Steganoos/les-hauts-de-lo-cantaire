@@ -1,9 +1,7 @@
 <?php
-
-// Fichier qui contiend la configuration pour effectuer la connexion à la base de données
 return [
-    'db-host' => 'localhost',
-    'db_name' => 'les_hauts_de_lo_cantaire',
-    'db_username' => 'root',
-    'db_pass' => 'DWWMAdmin2025!',
+    'db_host' => '127.0.0.1',
+    'db_name' => 'les-hauts-de-lo-cantaire',
+    'db_user' => 'root',
+    'db_pass' => '',
 ];
