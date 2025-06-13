@@ -3,10 +3,12 @@
 
 // Chargement des contrôleurs
 require_once 'src/controllers/Homepage.php';
-require_once 'controllers/Product.php';
+require_once 'src/controllers/Product.php';
 require_once 'src/controllers/JoinUs.php';
 require_once 'src/controllers/Contact.php';
 require_once 'src/controllers/NotFound.php';
+
+define('BASE_URL', '/les_hauts_lo_cantaire/');
 
 // Récupération de la page demandée (ou 'homepage' par défaut)
 $page = $_GET['page'] ?? 'homepage';

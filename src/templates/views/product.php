@@ -1,14 +1,13 @@
 <?php $title = "Les Hauts de Lo Cantaire - Fiche produit -"; ?>
-<?php $css = "/public/css/product.css"; ?>
+<?php $css = BASE_URL . "public/css/product.css"; ?>
 
 <?php ob_start(); ?>
-
 
 <main>
   <article class="product-card">
 
     <div class="image">
-      <img src="<?= htmlspecialchars($product->getImageUrl()) ?>" alt="<?= htmlspecialchars($product->getAltText()) ?>">
+      <img src="<?= BASE_URL . 'public/images/products/' . htmlspecialchars($product->getImageUrl()) ?>" alt="<?= htmlspecialchars($product->getAltText()) ?>">
     </div>
 
     <header class="titlePriceStock">

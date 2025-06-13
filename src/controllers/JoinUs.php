@@ -12,10 +12,6 @@ class JoinUs
         $username = $config['db_user'];
         $password = $config['db_pass'];
 
-        // Pour vérifier les variables avant la connexion
-        // var_dump($dsn, $username, $password);
-        // exit;
-
         $connection = new DatabaseConnection($dsn, $username, $password);
 
         $eventsRepository = new EventsRepository($connection);

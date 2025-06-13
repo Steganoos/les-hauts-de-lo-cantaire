@@ -1,14 +1,5 @@
 <?php
 
-// src/controllers/Homepage.php
-
-// $configFilePath = __DIR__ . '/../../config/config.php';
-// $config = require $configFilePath;
-
-// var_dump($config);
-//exit;
-
-
 require_once __DIR__ . '/../lib/database.php';
 require_once __DIR__ . '/../models/product.php';
 

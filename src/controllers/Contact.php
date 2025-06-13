@@ -2,7 +2,7 @@
 class Contact
 {
     public function execute(){
-        require 'src/templates/views/contact.php';
+        require_once __DIR__ . '/../templates/views/contact.php';
     }
 
 }
