@@ -3,7 +3,7 @@
         <nav class="footer-left">
             <ul class="footer-nav-list">
                 <li><a href="<?= BASE_URL ?>index.php?page=homepage">Accueil</a></li>
-                <li><a href="<?= BASE_URL ?>index.php?page=joinUs">Nous rencontrer</a></li>
+                <li><a href="<?= BASE_URL ?>index.php?page=joinUs">Retrouvez-nous</a></li>
                 <li><a href="<?= BASE_URL ?>index.php?page=contact">Contact</a></li>
             </ul>
         </nav>

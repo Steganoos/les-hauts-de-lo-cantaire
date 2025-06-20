@@ -1,10 +1,13 @@
 <?php
 
-require_once __DIR__ . '/../models/event.php';
+declare(strict_types=1);
+
+require_once __DIR__ . '/../models/Event.php';
+
 
 class JoinUs
 {
-   public function execute()
+   public function execute(): void
     {
         $config = require __DIR__ . '/../../config/config.php';
 

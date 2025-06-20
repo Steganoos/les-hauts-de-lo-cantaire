@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 class NotFound
 {
     public function execute(): void

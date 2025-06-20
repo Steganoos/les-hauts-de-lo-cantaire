@@ -7,7 +7,7 @@
   <article class="product-card">
 
     <div class="image">
-      <img src="<?= BASE_URL . 'public/images/products/' . htmlspecialchars($product->getImageUrl()) ?>" alt="<?= htmlspecialchars($product->getAltText()) ?>">
+      <img src="<?= BASE_URL . 'public/images/products/' . htmlspecialchars($product->getImageUrl() ?? 'matcha.jpg'); ?>" alt="<?= htmlspecialchars($product->getAltText() ?? 'Image du produit'); ?>">
     </div>
 
     <header class="titlePriceStock">
@@ -37,6 +37,7 @@
     </section>
 
   </article>
+  <a href="<?= BASE_URL ?>index.php?page=homepage">Nos autres produits</a>
 </main>
 
 <?php $content = ob_get_clean(); ?>

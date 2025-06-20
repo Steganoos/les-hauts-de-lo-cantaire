@@ -176,10 +176,9 @@ class ProductsRepository
         $statement = $this->connection->getConnection()->prepare(
             "SELECT * FROM products WHERE id_products = ?"
         );
-        $statement->execute([$identifier]); // A ce stade, $statement contient les résultats de la requête sous forme brute.
+        $statement->execute([$identifier]);
 
-        $row = $statement->fetch(PDO::FETCH_ASSOC); // Utilise FETCH_ASSOC pour obtenir uniquement les colonnes avec leurs noms comme clés (pas d'index numériques)
-
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
             throw new \Exception("Produit non trouvé");
         }
@@ -203,27 +202,28 @@ class ProductsRepository
 
 
     public function getProductsWithImages(): array
-    {
-        $statement = $this->connection->getConnection()->query(
-            "SELECT p.id_products, p.name, p.description, i.id_images, i.image_url, i.alt_text 
-            FROM products p 
-            LEFT JOIN images i ON p.id_products = i.id_products"
-        );
-        $products = [];
-        while (($row = $statement->fetch(PDO::FETCH_ASSOC))) {
-            $product = new Product();
-            $product->setIdProducts((int)$row['id_products']);
-            $product->setName($row['name']);
-            $product->setDescription($row['description']);
-            $product->setImageUrl($row['image_url']);
-            $product->setAltText($row['alt_text']);
-            $product->setIdImages($row['id_images']);
+{
+    $statement = $this->connection->getConnection()->query(
+        "SELECT p.id_products, p.name, p.description, i.id_images, i.image_url, i.alt_text 
+        FROM products p 
+        LEFT JOIN images i ON p.id_products = i.id_products
+        WHERE p.is_active = 1"
+    );
 
-            $products[] = $product;
-        }
-        
+    $products = [];
+    while (($row = $statement->fetch(PDO::FETCH_ASSOC))) {
+        $product = new Product();
+        $product->setIdProducts((int)$row['id_products']);
+        $product->setName($row['name']);
+        $product->setDescription($row['description']);
+        $product->setImageUrl($row['image_url']);
+        $product->setAltText($row['alt_text']);
+        $product->setIdImages($row['id_images']);
 
-        return $products;
+        $products[] = $product;
     }
+
+    return $products;
+}
     
 }

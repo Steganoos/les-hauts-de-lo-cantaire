@@ -1,7 +1,8 @@
-<?php $title = "Les Hauts de Lo Cantaire - Retrouvez-nous -"; ?>
-<?php $css = BASE_URL . "public/css/joinUs.css"; ?>
+<?php $title = "Les Hauts de Lo Cantaire - Retrouvez-nous -";
+$css = BASE_URL . "public/css/joinUs.css";
 
-<?php ob_start(); ?>
+ob_start();
+?>
 
 <main>
     <h2>Venez goûter, échanger, et repartir avec un peu de terroir dans votre panier !</h2>
@@ -17,7 +18,7 @@
             <?php foreach ($events as $event): ?>
                 <article>
                     <h2><?= htmlspecialchars($event->getTitle()); ?></h2>
-                    <p><?= htmlspecialchars($event->getDescription()); ?></p>
+                    <p><?= nl2br(htmlspecialchars($event->getDescription())); ?></p>
                 </article>
             <?php endforeach; ?>
         <?php else: ?>
@@ -30,4 +31,4 @@
 </main>
 
 <?php $content = ob_get_clean(); ?>
-<?php require_once __DIR__ . '/../layout/layout.php' ?>
+<?php require_once __DIR__ . '/../layout/layout.php'; ?>
