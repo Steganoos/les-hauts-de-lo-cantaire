@@ -18,7 +18,7 @@ class AuthController
             if (!$email || empty($userPassword)) {
                 // Rediriger ou afficher une erreur
                 $error = "Email ou mot de passe invalide.";
-                require_once __DIR__ . '/../templates/views/login.php';
+                require_once __DIR__ . '/../templates/views/loginPage.php';
                 return;
             }
 
@@ -50,7 +50,7 @@ class AuthController
             }
         } else {
             // Affiche simplement le formulaire si GET
-            require_once __DIR__ . '/../templates/views/login.php';
+            require_once __DIR__ . '/../templates/views/loginPage.php';
         }
     }
 }

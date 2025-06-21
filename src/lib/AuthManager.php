@@ -1,7 +1,5 @@
 <?php
 
-
-
 class AuthManager
 {
     // Méthode pour connecter l'utilisateur et créer la session
@@ -37,8 +35,24 @@ class AuthManager
             session_start();
         }
 
-        // On vide la session
+        // Vider la session en mémoire
         $_SESSION = [];
+
+        // 2. Supprimer le cookie de session (PHPSESSID)
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(
+                session_name(),    // nom du cookie
+                '',                // valeur vide
+                time() - 3600,     // expiration passée
+                $params["path"],   // même chemin
+                $params["domain"], // même domaine
+                $params["secure"], // sécurisé si nécessaire
+                $params["httponly"]// HTTP only
+            );
+        }
+
+        // 3. Détruire la session côté serveur
         session_destroy();
     }
 }

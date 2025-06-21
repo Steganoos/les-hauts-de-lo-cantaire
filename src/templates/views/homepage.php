@@ -33,9 +33,7 @@ ob_start(); // Démarre la mise en mémoire tampon de la sortie HTML
             <p><?= nl2br(htmlspecialchars($product->getDescription())); ?></p>
 
             <!-- Lien vers la page de détail du produit, en passant son ID dans l'URL -->
-            <a href="<?= BASE_URL ?>index.php?page=product&id=<?= htmlspecialchars($product->getIdProducts()) ?>">
-                Détail du produit
-            </a>
+            <a href="<?= BASE_URL ?>index.php?page=product&id=<?= urldecode($product->getIdProducts()) ?>">Détail du produit</a>
         </article>
     <?php endforeach; ?>
 
