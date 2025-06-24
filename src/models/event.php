@@ -116,6 +116,7 @@ class EventsRepository
         $events = [];
         while (($row = $statement->fetch(PDO::FETCH_ASSOC))) {
             $event = new Event();
+            $event->setIdEvents((int)$row['id_events']);
             $event->setTitle($row['title']);
             $event->setDescription($row['description']);
             

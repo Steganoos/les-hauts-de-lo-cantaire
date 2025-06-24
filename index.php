@@ -10,6 +10,9 @@ require_once 'src/controllers/NotFound.php';
 require_once 'src/controllers/LoginPageController.php';
 require_once 'src/controllers/AuthController.php';
 require_once 'src/controllers/AdminDashboardController.php';
+require_once 'src/controllers/AdminProductsManagementController.php';
+require_once 'src/controllers/AdminEventsManagementController.php';
+require_once 'src/controllers/LogoutController.php';
 
 define('BASE_URL', '/les_hauts_de_lo_cantaire/');
 
@@ -23,18 +26,19 @@ switch ($page) {
         break;
 
     case 'product':
-    // On récupère l'identifiant passé dans l'URL (GET), et on valide qu'il s'agit bien d'un entier
-    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+        // On récupère l'identifiant passé dans l'URL (GET), et on valide qu'il s'agit bien d'un entier
+        $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
-    // Si l'ID n'est pas valide on redirige vers une page d'erreur
-    if ($id === false || $id <= 0) {
+        // Si l'ID n'est pas valide on redirige vers une page d'erreur
+        if ($id === false || $id <= 0)
+        {
         (new NotFound())->execute(); // Exécute le contrôleur de page non trouvée
         break;
-    }
+        }
 
-    // Si l'ID est valide, on instancie le contrôleur correspondant et on lui passe l'ID pour afficher les détails du produit
-    (new ProductId())->execute($id);
-    break;        
+        // Si l'ID est valide, on instancie le contrôleur correspondant et on lui passe l'ID pour afficher les détails du produit
+        (new ProductId())->execute($id);
+        break;        
     
     case 'joinUs':
         (new JoinUs())->execute();
@@ -55,14 +59,22 @@ switch ($page) {
     case 'adminDashboard':
         (new AdminDashboardController())->execute();
         break;
+
+    case 'products-management':
+        (new AdminProductsManagementController())->execute();
+    break; 
+    
+        case 'events-management':
+        (new AdminEventsManagementController())->execute();
+    break; 
+        
        
     case 'logout':
-        session_unset();
-        session_destroy();
-        header("Location: index.php?page=login");
+        (new LogoutController())->execute();
         break;
 
     default:
         (new NotFound())->execute();
         break;
 }
+

@@ -18,8 +18,8 @@
         <span class="priceKg">Prix au Kg : <?= htmlspecialchars($product->getPriceKg()) ?> €</span>
       </p>
 
-      <p class="stock <?= $product->getInStock() ? 'available' : 'unavailable' ?>">
-        <span class="label">Stock :</span>
+      <p class="stock-info <?= $product->getInStock() ? 'available' : 'unavailable' ?>">
+        <span class="stock-label">Stock :</span>
         <span class="status"><?= $product->getInStock() ? 'Disponible' : 'Indisponible' ?></span>
       </p>
     </header>

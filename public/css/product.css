@@ -1,11 +1,11 @@
-.stock .label {
+.stock-info .stock-label {
   color: black;
 }
 
-.stock.available .status {
+.stock-info.available .status {
   color: green;
 }
 
-.stock.unavailable .status {
+.stock-info.unavailable .status {
   color: red;
 }

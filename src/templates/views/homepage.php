@@ -19,29 +19,36 @@ ob_start(); // Démarre la mise en mémoire tampon de la sortie HTML
     </p>
 
     <!-- Boucle d'affichage dynamique des produits -->
-    <?php foreach ($products as $product): ?>
-        <article class="product">
-            <!-- Affichage de l'image du produit avec protection XSS via htmlspecialchars.
-                 Si aucune image n'est définie, une image par défaut est utilisée -->
-            <img src="<?= BASE_URL . htmlspecialchars($product->getImageUrl() ?? 'public/images/static/desktop/matcha.jpg'); ?>" 
-                 alt="<?= htmlspecialchars($product->getAltText() ?? 'Image du produit'); ?>">
+    <?php if (!empty($products)): ?>
+        <?php foreach ($products as $product): ?>            
+            <article class="product">
+                <!-- Affichage de l'image du produit avec protection XSS via htmlspecialchars.
+                Si aucune image n'est définie, une image par défaut est utilisée -->
+                <img
+                src="<?= htmlspecialchars(BASE_URL . 'public/images/products/' . ($product->getImageUrl() ?? 'matcha.jpg')) ?>"
+                alt="<?= htmlspecialchars($product->getAltText() ?? 'Image du produit') ?>"
+                />
 
-            <!-- Nom du produit, sécurisé contre les injections -->
-            <h2 class="name"><?= htmlspecialchars($product->getName()); ?></h2>
+                <!-- Nom du produit, sécurisé contre les injections -->
+                <h2 class="name"><?= htmlspecialchars($product->getName()); ?></h2>
 
-            <!-- Description du produit, avec les sauts de ligne conservés -->
-            <p><?= nl2br(htmlspecialchars($product->getDescription())); ?></p>
+                <!-- Description du produit, avec les sauts de ligne conservés -->
+                <p><?= nl2br(htmlspecialchars($product->getDescription())); ?></p>
 
-            <!-- Lien vers la page de détail du produit, en passant son ID dans l'URL -->
-            <a href="<?= BASE_URL ?>index.php?page=product&id=<?= urldecode($product->getIdProducts()) ?>">Détail du produit</a>
-        </article>
-    <?php endforeach; ?>
+                <!-- Lien vers la page de détail du produit, en passant son ID dans l'URL -->
+                <a href="<?= BASE_URL . 'index.php?page=product&id=' . urlencode($product->getIdProducts()) ?>">Détail du produit</a>
+            </article>
+        <?php endforeach; ?>
+
+    <?php else: ?>
+            <p>Aucun produit n’est disponible pour le moment.</p>
+    <?php endif; ?>
 
     <!-- Lien de retour vers l'accueil -->
-    <a href="<?= BASE_URL ?>index.php?page=homepage">Retour à l'accueil</a>
+    <a href="<?= BASE_URL . 'index.php?page=homepage'?>">Retour à l'accueil</a>
 
     <!-- Logo de la région des Cévennes -->
-    <img src="<?= BASE_URL ?>public/images/static/desktop/logoCevennes278x278.webp" alt="Logo de la région des Cévennes">
+    <img class="logo-cevennes" src="<?= BASE_URL . 'public/images/static/desktop/logoCevennes278x278.webp'?>" alt="Logo de la région des Cévennes">
 </main>
 
 <?php 

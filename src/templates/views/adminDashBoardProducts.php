@@ -1,69 +1,69 @@
-<?php 
-// Définition du titre de la page (utilisé dans le layout principal)
-$title = "Les Hauts de Lo Cantaire - Page d'administration des produits -"; 
+<?php
+require_once __DIR__ . '/../../lib/AuthManager.php';
 
-// Définition du chemin vers le fichier CSS spécifique à cette page
-$css = BASE_URL . "public/css/adminDashBoard.css"; 
-
-
-ob_start(); // Démarre la mise en mémoire tampon de la sortie HTML
+if(!AuthManager::isConnected()){
+    header('Location:' . BASE_URL . 'index.php?page=loginPage');
+            exit;
+}
 ?>
 
-<main>
-    <h1>Page d'administration des produits</h1>
-    
-    
-   <?php foreach ($products as $product): ?>
 
-    <article class="product">
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Les Hauts de Lo Cantaire - Administration des produits -</title>
+    <link rel="stylesheet" href="<?= BASE_URL . 'public/css/adminDashBoard.css' ?>" />
+</head>
 
-    <div class="image">
-      <img src="<?= BASE_URL . 'public/images/products/' . htmlspecialchars($product->getImageUrl() ?? 'matcha.jpg'); ?>" alt="<?= htmlspecialchars($product->getAltText() ?? "Description alternative de l'image"); ?>">
-    </div>
+<body>
+    <header>
+        <nav>
+            <a href="<?= BASE_URL . 'index.php?page=homepage' ?>">
+                <img src="<?= BASE_URL . 'public/images/static/desktop/logoNavbar243x130.webp' ?>" alt="Logo Les Hauts de Lo Cantaire" />
+            </a>
+            <ul>
+                <li><a href="<?= BASE_URL . 'index.php?page=homepage' ?>">Accueil</a></li>
+                <li><a href="<?= BASE_URL . 'index.php?page=joinUs' ?>">Retrouvez-nous</a></li>
+                <li><a href="<?= BASE_URL . 'index.php?page=contact' ?>">Contact</a></li>
+            </ul>
 
-    <header class="titlePriceStock">
-      <h2><?= htmlspecialchars($product->getName()) ?></h2>
-
-      <p class="price">
-        <span class="priceTtc">Prix TTC : <?= htmlspecialchars($product->getPriceTtc()) ?> €</span><br>
-        <span class="priceKg">Prix au Kg : <?= htmlspecialchars($product->getPriceKg()) ?> €</span>
-      </p>
-
-      <p class="stock <?= $product->getInStock() ? 'available' : 'unavailable' ?>">
-        <span class="stock">Stock :</span>
-        <span class="status"><?= $product->getInStock() ? 'Disponible' : 'Indisponible' ?></span>
-      </p>
+            <div class="navlogout">
+            <a href="<?= BASE_URL . 'index.php?page=logout' ?>">Se déconnecter</a>
+            </div>
+        </nav>
     </header>
 
-    <section class="description">
-      <h3>Description :</h3>
-      <p><?= nl2br(htmlspecialchars($product->getDescription())) ?></p>
-      <p><?= nl2br(htmlspecialchars($product->getAdviceInfo())) ?></p>
-      <p><?= nl2br(htmlspecialchars($product->getQualityLabel())) ?></p>
-    </section>
+    <main>
+        <h1>Page d'administration des produits</h1>
+        <?php if (!empty($products)): ?>
+            <?php foreach ($products as $product): ?>
+                <article class="product">
+                    <img
+                    src="<?= htmlspecialchars(BASE_URL . 'public/images/products/' . ($product->getImageUrl() ?? 'matcha.jpg')) ?>"
+                    alt="<?= htmlspecialchars($product->getAltText() ?? 'Image du produit') ?>"
+                    />
 
-    <section class="ingredients">
-      <h3>Ingrédient :</h3>
-      <p><?= nl2br(htmlspecialchars($product->getComposition())) ?></p>
-    </section>
+                    <h2 class="product-name"><?= htmlspecialchars($product->getName()) ?></h2>
 
-  </article>
-       
-  <a href="<?= BASE_URL ?>index.php?page=editProduct&id=<?= urlencode($product->getIdProducts()) ?>" class="btn edit">Modifier</a>
-  <a href="<?= BASE_URL ?>index.php?page=deleteProduct&id=<?= urlencode($product->getIdProducts()) ?>" class="btn delete">Supprimer</a>
+                    <p><?= nl2br(htmlspecialchars($product->getDescription())) ?></p>
 
-  
+                    <div class="product-actions">
+                        <a href="<?= BASE_URL . 'index.php?page=editProduct&id=' . urlencode($product->getIdProducts()) ?>" class="btn edit">Modifier</a>
+                        <a href="<?= BASE_URL . 'index.php?page=deleteProduct&id=' . urlencode($product->getIdProducts()) ?>" class="btn delete">Supprimer</a>
+                    </div>
+                </article>
+            <?php endforeach; ?>
+        
+        <?php else: ?>
+            <p>Aucun produit n’est disponible pour le moment.</p>
+        <?php endif; ?>
 
-  <?php endforeach; ?>
+        <a href="<?= BASE_URL . 'index.php?page=newProduct' ?>" class="btn new-product">Ajouter un produit</a>
+    </main>
 
-  <a href="<?= BASE_URL ?>index.php?page=createProduct" class="btn create">Ajouter</a>
+    <?php require_once __DIR__ . '/footer.php' ?>
 
-</main>
-
-<?php 
-// Fin de la mise en mémoire tampon et enregistrement du contenu dans la variable $content
-$content = ob_get_clean(); 
-
-// Inclusion du layout général du site, qui utilise $title, $css et $content
-require_once __DIR__ . '/../layout/layout.php';
-?>
+</body>
+</html>

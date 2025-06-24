@@ -34,7 +34,7 @@ class AuthController
             $admin = $adminRepository->getAdminByEmail($email);
 
             if ($admin && password_verify($userPassword, $admin->getPassword())) {
-                // Connexion réussie
+                
 
                 $adminData = ['id'=>$admin->getIdAdmin(),'email'=>$admin->getEmail(), 'pseudo'=>$admin->getPseudo()];
                 AuthManager::login($adminData);
