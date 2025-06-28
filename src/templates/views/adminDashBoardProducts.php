@@ -29,9 +29,12 @@ if(!AuthManager::isConnected()){
                 <li><a href="<?= BASE_URL . 'index.php?page=contact' ?>">Contact</a></li>
             </ul>
 
-            <div class="navlogout">
-            <a href="<?= BASE_URL . 'index.php?page=logout' ?>">Se déconnecter</a>
-            </div>
+            <ul class="admin-nav">
+                <li><a href="<?= BASE_URL . 'index.php?page=products-management' ?>">Gérer les produits</a></li>
+                <li><a href="<?= BASE_URL . 'index.php?page=events-management' ?>">Gérer les événements</a></li>
+                <li><a href="<?= BASE_URL . 'index.php?page=admins-managment' ?>">Gérer les administrateurs</a></li>
+                <li><a href="<?= BASE_URL . 'index.php?page=logout' ?>">Se déconnecter</a></li>
+            </ul>
         </nav>
     </header>
 

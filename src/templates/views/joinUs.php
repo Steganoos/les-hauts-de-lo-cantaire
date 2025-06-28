@@ -14,19 +14,22 @@ ob_start();
     </p>
    
     <section>
-        <?php if (!empty($events)): ?>
+        <?php if (!empty($errorMessage)): ?>
+            <p class="error-message"><?= htmlspecialchars($errorMessage) ?></p>
+        <?php else: ?>
             <?php foreach ($events as $event): ?>
+
                 <article>
                     <h2><?= htmlspecialchars($event->getTitle()); ?></h2>
                     <p><?= nl2br(htmlspecialchars($event->getDescription())); ?></p>
                 </article>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <p>Aucun événement n’est disponible pour le moment.</p>
+                
+                <?php endforeach; ?>
+       
         <?php endif; ?>
     </section>
-    
-    <a class='returnHome' href="<?= BASE_URL ?>index.php?page=homepage">Retour à l'accueil</a>
+        
+    <a class='return-home' href="<?= BASE_URL ?>index.php?page=homepage">Retour à l'accueil</a>
     <img src="<?= BASE_URL ?>public/images/static/desktop/logoCevennes278x278.webp" alt="Logo officiel de la région des Cévennes">
 </main>
 

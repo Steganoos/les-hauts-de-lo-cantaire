@@ -33,9 +33,10 @@
 <main>
     <h1>Administration</h1>
     
-    <div class="product-actions">
+    <div class="admin-actions">
         <a href="<?= BASE_URL . 'index.php?page=products-management' ?>" class="btn">Gérer les produits</a>
         <a href="<?= BASE_URL . 'index.php?page=events-management' ?>" class="btn">Gérer les événements</a>
+        <a href="<?= BASE_URL . 'index.php?page=admins-management' ?>" class="btn">Gérer les administrateurs</a>
     </div>
 </main>
 

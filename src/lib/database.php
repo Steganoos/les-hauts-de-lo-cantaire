@@ -15,18 +15,17 @@ class DatabaseConnection
     }
 
     public function getConnection(): \PDO
+
     {
         if ($this->database === null) {
             try {
                 $this->database = new \PDO($this->dsn, $this->username, $this->password);
                 $this->database->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            } catch (\PDOException $e) {
-                die("Erreur de connexion PDO : " . $e->getMessage() . 
-                    "\nDSN : " . $this->dsn . 
-                    "\nUser : " . $this->username);
-            }
+        } catch (\PDOException $e) {
+            // On relance l'exception pour que le contrôleur la capture
+            throw $e;
         }
-
-        return $this->database;
     }
+    return $this->database;
+}
 }

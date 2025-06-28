@@ -171,7 +171,7 @@ class ProductsRepository
         $this->connection = $connection;
     }
 
-    public function getProduct(int $identifier): Product
+    public function getProduct(int $identifier): ?Product
     {
         $statement = $this->connection->getConnection()->prepare(
             "SELECT * FROM products WHERE id_products = ?"
@@ -180,7 +180,7 @@ class ProductsRepository
 
         $row = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$row) {
-            throw new \Exception("Produit non trouvé");
+            return null;
         }
 
         $product = new Product();

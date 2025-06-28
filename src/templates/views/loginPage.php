@@ -8,8 +8,8 @@ ob_start();
 <main>
   <div class="container">
     <h1>Login</h1>
-    <?php if (isset($error)) : ?>
-        <p class="error"><?= htmlspecialchars($error) ?></p>
+    <?php if (!empty($errorMessage)) : ?>
+        <p class="error-message"><?= htmlspecialchars($errorMessage) ?></p>
     <?php endif; ?>
     <form action="index.php?page=authController" method="post">
       <div>

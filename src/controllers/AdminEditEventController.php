@@ -2,21 +2,31 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/../lib/database.php';
 require_once __DIR__ . '/../models/Event.php';
 
 
-
-class AdminEventsManagementController
+class AdminEditEventController
 {
-    public function execute(): void
+    public function execute(int $id): void
     {
         $errorMessage = null;
         $success = isset($_GET['success']) && $_GET['success'] == '1';
-        
+
         
         if (!AuthManager::isConnected()) {
             header('Location:' . BASE_URL . 'index.php?page=loginPage');
             exit;
+        }
+        
+        
+        
+        if (!is_int($id) || $id <= 0)
+        {
+            http_response_code(400);
+            $errorMessage = "ID du produit invalide.";
+            require_once __DIR__ . '/../templates/views/adminDashboardEditEvent.php';
+            return;
         }
 
         $config = require __DIR__ . '/../../config/config.php';
@@ -28,22 +38,24 @@ class AdminEventsManagementController
         try {
             $connection = new DatabaseConnection($dsn, $username, $password);
             $eventsRepository = new EventsRepository($connection);
-            $events = $eventsRepository->getAdminEvents();
+            $event = $eventsRepository->getAdminEditEvent($id);
 
-            if (empty($events)) {
-                $errorMessage = "Aucun événement trouvé.";
+            if (empty($event)) {
+                http_response_code(404);
+                $errorMessage = "Événement introuvable.";
             }
 
-             require_once __DIR__ . '/../templates/views/adminDashboardEvents.php';           
+            require_once __DIR__ . '/../templates/views/adminDashboardEditEvent.php';
 
-           
+
         } catch (\PDOException $e) {
             http_response_code(500);
             $errorMessage = $e->getMessage();
+
+            require_once __DIR__ . '/../templates/views/adminDashboardEditEvent.php';
+            return;
         }
 
-         require_once __DIR__ . '/../templates/views/adminDashboardEvents.php';
-
-         return;       
+        
     }
 }

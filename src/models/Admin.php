@@ -97,7 +97,7 @@ class AdminRepository
     }
 
     
-    public function getAdminByEmail(string $email): Admin
+    public function getAdminByEmail(string $email): ?Admin
     {
         $statement = $this->connection->getConnection()->prepare(
             "SELECT id_admins, pseudo, email, password FROM admins WHERE email = ? AND is_active = 1"
@@ -107,7 +107,7 @@ class AdminRepository
 
         $row = $statement->fetch(PDO::FETCH_ASSOC); 
         if (!$row) {
-            throw new \Exception("Admin non trouvé ou non actif");
+            return null ;
         }
 
     

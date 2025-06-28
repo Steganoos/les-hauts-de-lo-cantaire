@@ -6,9 +6,12 @@ class ProductID
 {
     public function execute(int $id): void
     {
+        $errorMessage = null;
+
         if ($id <= 0) {
             http_response_code(400);
-            echo "ID de produit invalide.";
+            $errorMessage = "Une erreur est survenue. Produit introuvable.";
+            require_once __DIR__ . '/../templates/views/product.php';
             return;
         }
 
@@ -20,16 +23,19 @@ class ProductID
 
         try {
             $connection = new DatabaseConnection($dsn, $username, $password);
-        } catch (Exception $e) {
-            http_response_code(500);
-            echo "Erreur de connexion à la base de données.";
-            return;
+            $productsRepository = new ProductsRepository($connection);
+            $product = $productsRepository->getProduct($id);
+            if(empty($products)){
+            $erroMessage = "Aucun produit n’est disponible pour le moment.";
         }
 
-        $productsRepository = new ProductsRepository($connection);
+            require __DIR__ . '/../templates/views/product.php';
 
-        $product = $productsRepository->getProduct($id);
-
-        require __DIR__ . '/../templates/views/product.php';
+        } catch (\PDOException $e) {
+            http_response_code(500);
+            $errorMessage =  "Oups désolé, une erreur est survenue. Veuillez réessayer plus tard.";
+            require_once __DIR__ . '/../templates/views/product.php';
+            return;
+        }
     }
 }

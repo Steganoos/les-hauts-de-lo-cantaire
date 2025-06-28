@@ -1,0 +1,101 @@
+/* Container du formulaire : centre, limite largeur et padding */
+.form-container {
+  max-width: 800px;       /* largeur max confortable */
+  margin: 2rem auto;      /* centrer horizontalement avec marge verticale */
+  padding: 1rem 1.5rem;   /* espace intérieur */
+  background-color: #f9f9f9; /* léger fond pour démarquer */
+  border-radius: 8px;     /* coins arrondis */
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Style global du formulaire */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;  /* espace vertical entre les groupes */
+}
+
+/* Chaque groupe label + input/textarea */
+.form-eventGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels au dessus des champs */
+.form-eventGroup label {
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #333;
+  font-size: 1rem;
+}
+
+/* Inputs et textarea - taille, bordure, padding */
+input[type="text"],
+input[type="date"],
+textarea {
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+  font-family: inherit;
+}
+
+/* Focus : bordure bleue */
+input[type="text"]:focus,
+input[type="date"]:focus,
+textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+/* Textarea hauteur minimale */
+textarea {
+  min-height: 120px;
+  resize: vertical; /* permet à l'utilisateur de redimensionner verticalement */
+}
+
+/* Checkbox alignement */
+.form-eventGroup input[type="checkbox"] {
+  width: auto;
+  margin-top: 0.3rem;
+  transform: scale(1.2);
+}
+
+/* Bouton submit */
+.btn.submit {
+  align-self: flex-start;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.btn.submit:hover {
+  background-color: #357ABD;
+}
+
+/* Messages d'erreur */
+.error-message {
+  color: #d9534f;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+/* Responsive : sur petits écrans */
+@media (max-width: 480px) {
+  .form-container {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .btn.submit {
+    width: 100%;
+    font-size: 1.2rem;
+  }
+}
