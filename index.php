@@ -18,6 +18,7 @@ require_once __DIR__ . '/src/controllers/AdminNewEventPageController.php';
 require_once __DIR__ . '/src/controllers/AdminAddNewEventController.php';
 require_once __DIR__ . '/src/controllers/AdminDeleteEventController.php';
 require_once __DIR__ . '/src/controllers/LogoutController.php';
+require_once __DIR__ . '/src/controllers/LegalController.php';
 
 
 define('BASE_URL', '/les_hauts_de_lo_cantaire/');
@@ -46,7 +47,7 @@ switch ($page) {
         (new ProductId())->execute($id);
         break;        
     
-    case 'joinUs':
+    case 'join-us':
         (new JoinUs())->execute();
         break;
 
@@ -125,6 +126,10 @@ switch ($page) {
        
     case 'logout':
         (new LogoutController())->execute();
+        break;
+
+    case 'legal':
+        (new LegalController())->execute();
         break;
 
     default:

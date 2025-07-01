@@ -18,7 +18,9 @@ class AdminEditEventController
             header('Location:' . BASE_URL . 'index.php?page=loginPage');
             exit;
         }
-        
+
+        $csrfToken = CSRFToken::generate();
+        require_once __DIR__ . '/../templates/views/adminDashboardNewEvent.php';       
         
         
         if (!is_int($id) || $id <= 0)

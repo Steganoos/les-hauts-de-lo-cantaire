@@ -6,7 +6,7 @@ ob_start();
 ?>
 
 <main>
-    <a class="join-us" href="<?= BASE_URL ?>index.php?page=joinUs">Retrouvez-nous</a>
+    <a class="join-us" href="<?= BASE_URL ?>index.php?page=join-us">Retrouvez-nous</a>
 
     <p class="description">
         Nous sommes présents dans de nombreux marchés de la région. Vous en trouverez la liste dans la rubrique “Retrouvez-nous”.

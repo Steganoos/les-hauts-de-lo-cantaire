@@ -42,6 +42,8 @@
 
     <?php endif; ?>
 
+    <a class="join-us-link" href="<?= BASE_URL ?>index.php?page=join-us">Retouvez-nous</a>
+
   </article>
 
   <a href="<?= BASE_URL ?>index.php?page=homepage">Nos autres produits</a>

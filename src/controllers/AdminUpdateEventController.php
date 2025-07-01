@@ -25,52 +25,62 @@ class AdminUpdateEventController
         }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            // Initialiser les variables
-            $title = $_POST['title'] ?? null;
-            $description = $_POST['description'] ?? null;
-            $startDate = $_POST['start_date'] ?? null;
-            $endDate = $_POST['end_date'] ?? null;
-            $isActive = isset($_POST['is_active']) ? 1 : 0;
-
-            // Contrôle des valeurs
-            if (empty($title) || strlen($title) > 150) {
-                $errormessage = "Le titre est vide ou trop long.";
-            } elseif (empty($startDate) || !strtotime($startDate)) {
-                $errormessage = "La date de début est invalide.";
-            } elseif (!empty($endDate) && !strtotime($endDate)) {
-                $errormessage = "La date de fin est invalide.";
-            }
-
-            // En cas d'erreur de formulaire
-            if ($errormessage !== null) {
-                http_response_code(400);
-                echo '<h1>400 - Erreur dans le formulaire</h1>';
-                echo '<p>' . htmlspecialchars($errormessage) . '</p>';
-                echo '<a href="' . BASE_URL . 'index.php?page=edit-event&id=' . $id . '">Retour à l\'événement</a>';
+            // Vérification du token CSRF
+            $csrfToken = $_POST['csrfToken'] ?? '';
+            if (!CSRFToken::verify($csrfToken)) {
+                http_response_code(403);
+                echo '<h1>403 - Requête interdite</h1>';
+                echo '<p>Le jeton CSRF est invalide ou manquant.</p>';
+                echo '<a href="' . BASE_URL . 'index.php?page=new-event-page">Retour à la page d\'ajout d\'événement</a>';
                 exit;
-            }
+                }
 
-            // Connexion à la base de données
-            $config = require __DIR__ . '/../../config/config.php';
-            $dsn = "mysql:host={$config['db_host']};dbname={$config['db_name']};charset=utf8";
-            $username = $config['db_user'];
-            $password = $config['db_pass'];
+                // Initialiser les variables
+                $title = $_POST['title'] ?? null;
+                $description = $_POST['description'] ?? null;
+                $startDate = $_POST['start_date'] ?? null;
+                $endDate = $_POST['end_date'] ?? null;
+                $isActive = isset($_POST['is_active']) ? 1 : 0;
 
-            try {
-                $connection = new DatabaseConnection($dsn, $username, $password);
-                $eventsRepository = new EventsRepository($connection);
-                $eventsRepository->updateEvents($id, $title, $description, $startDate, $endDate, $isActive);
+                // Contrôle des valeurs
+                if (empty($title) || strlen($title) > 150) {
+                    $errormessage = "Le titre est vide ou trop long.";
+                } elseif (empty($startDate) || !strtotime($startDate)) {
+                    $errormessage = "La date de début est invalide.";
+                } elseif (!empty($endDate) && !strtotime($endDate)) {
+                    $errormessage = "La date de fin est invalide.";
+                }
 
-                // Redirection vers la page d'édition avec message de succès
-                header('Location: ' . BASE_URL . 'index.php?page=edit-event&id=' . $id . '&success=1');
-                exit;
+                // En cas d'erreur de formulaire
+                if ($errormessage !== null) {
+                    http_response_code(400);
+                    echo '<h1>400 - Erreur dans le formulaire</h1>';
+                    echo '<p>' . htmlspecialchars($errormessage) . '</p>';
+                    echo '<a href="' . BASE_URL . 'index.php?page=edit-event&id=' . $id . '">Retour à l\'événement</a>';
+                    exit;
+                }
 
-            } catch (\PDOException $e) {
-                http_response_code(500);
-                echo '<h1>500 - Erreur de connexion à la base de données.</h1>';
-                echo '<p>' . $e->getMessage() . '</p>';
-                echo '<a href="' . BASE_URL . 'index.php?page=edit-event&id=' . $id . '">Retour à l\'événement</a>';
-                exit;
+                // Connexion à la base de données
+                $config = require __DIR__ . '/../../config/config.php';
+                $dsn = "mysql:host={$config['db_host']};dbname={$config['db_name']};charset=utf8";
+                $username = $config['db_user'];
+                $password = $config['db_pass'];
+
+                try {
+                    $connection = new DatabaseConnection($dsn, $username, $password);
+                    $eventsRepository = new EventsRepository($connection);
+                    $eventsRepository->updateEvents($id, $title, $description, $startDate, $endDate, $isActive);
+
+                    // Redirection vers la page d'édition avec message de succès
+                    header('Location: ' . BASE_URL . 'index.php?page=edit-event&id=' . $id . '&success=1');
+                    exit;
+
+                } catch (\PDOException $e) {
+                    http_response_code(500);
+                    echo '<h1>500 - Erreur de connexion à la base de données.</h1>';
+                    echo '<p>' . $e->getMessage() . '</p>';
+                    echo '<a href="' . BASE_URL . 'index.php?page=edit-event&id=' . $id . '">Retour à l\'événement</a>';
+                    exit;
             }
         }
     }

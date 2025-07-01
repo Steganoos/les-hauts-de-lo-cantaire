@@ -17,7 +17,7 @@ class Product
     private bool $is_active;
     private ?string $image_url = null;
     private ?string $alt_text = null;
-    private ?string $id_images = null;
+    private ?int $id_images = null;
 
     // Setters
     public function setIdProducts(int $id_products): void
@@ -85,7 +85,7 @@ class Product
     $this->alt_text = $alt_text;
     }
 
-    public function setIdImages(?string $id_images): void
+    public function setIdImages(?int $id_images): void
     {
     $this->id_images = $id_images;
     }
@@ -155,7 +155,7 @@ class Product
     return $this->alt_text;
     }
 
-    public function getIdImages(): ?string
+    public function getIdImages(): ?int
     {
     return $this->id_images;
     }
@@ -174,8 +174,11 @@ class ProductsRepository
     public function getProduct(int $identifier): ?Product
     {
         $statement = $this->connection->getConnection()->prepare(
-            "SELECT * FROM products WHERE id_products = ?"
-        );
+        "SELECT p.*, i.id_images, i.image_url, i.alt_text
+        FROM products p
+        LEFT JOIN images i ON p.id_products = i.id_products
+        WHERE p.id_products = ?"
+);
         $statement->execute([$identifier]);
 
         $row = $statement->fetch(PDO::FETCH_ASSOC);
@@ -195,6 +198,9 @@ class ProductsRepository
         $product->setComposition($row['composition']);
         $product->setInStock((bool)$row['in_stock']);
         $product->setIsActive((bool)$row['is_active']);
+        $product->setImageUrl($row['image_url'] ?? null);
+        $product->setAltText($row['alt_text'] ?? null);
+        $product->setIdImages($row['id_images'] ?? null);
 
         return $product;
     }
@@ -216,9 +222,9 @@ class ProductsRepository
         $product->setIdProducts((int)$row['id_products']);
         $product->setName($row['name']);
         $product->setDescription($row['description']);
-        $product->setImageUrl($row['image_url']);
-        $product->setAltText($row['alt_text']);
-        $product->setIdImages($row['id_images']);
+        $product->setImageUrl($row['image_url'] ?? null);
+        $product->setAltText($row['alt_text'] ?? null);
+        $product->setIdImages($row['id_images'] ?? null);
 
         $products[] = $product;
     }

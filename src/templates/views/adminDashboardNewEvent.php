@@ -16,7 +16,7 @@
             </a>
             <ul>
                 <li><a href="<?= BASE_URL . 'index.php?page=homepage' ?>">Accueil</a></li>
-                <li><a href="<?= BASE_URL . 'index.php?page=joinUs' ?>">Retrouvez-nous</a></li>
+                <li><a href="<?= BASE_URL . 'index.php?page=join-us' ?>">Retrouvez-nous</a></li>
                 <li><a href="<?= BASE_URL . 'index.php?page=contact' ?>">Contact</a></li>
             </ul>
 
@@ -67,6 +67,8 @@
                         <label for="end_date">Date de fin</label>
                         <input type="date" id="end_date" name="end_date">
                     </div>
+
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
 
                     <button type= "submit" class="btn submit">Valider</button>
 
